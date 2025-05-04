@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taskly_todo_app/features/tasks/presentation/providers/task_list_provider.dart';
@@ -50,53 +51,61 @@ class TaskListScreen extends ConsumerWidget {
                       color: Colors.red,
                       child: const Icon(Icons.delete, color: Colors.white),
                     ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
+                    child: FadeInLeft(
+                      duration: Duration(
+                        milliseconds: 400 + index * 100,
+                      ), // leve efecto secencial
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 16,
+                        ),
+                        decoration: BoxDecoration(
+                          color:
+                              task.isDone ? Colors.green.shade50 : Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
 
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              task.title,
-                              style: TextStyle(
-                                fontSize: 16,
-                                decoration:
-                                    task.isDone
-                                        ? TextDecoration.lineThrough
-                                        : TextDecoration.none,
-                                color:
-                                    task.isDone ? Colors.grey : Colors.black87,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                task.title,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  decoration:
+                                      task.isDone
+                                          ? TextDecoration.lineThrough
+                                          : TextDecoration.none,
+                                  color:
+                                      task.isDone
+                                          ? Colors.grey
+                                          : Colors.black87,
+                                ),
                               ),
                             ),
-                          ),
-                          IconButton(
-                            icon:
-                                task.isDone
-                                    ? Icon(Icons.check_circle)
-                                    : Icon(Icons.radio_button_unchecked),
-                            color: task.isDone ? Colors.green : Colors.grey,
-                            onPressed: () {
-                              ref
-                                  .read(taskListProvider.notifier)
-                                  .toggleTask(task.id);
-                            },
-                          ),
-                        ],
+                            IconButton(
+                              icon:
+                                  task.isDone
+                                      ? Icon(Icons.check_circle)
+                                      : Icon(Icons.radio_button_unchecked),
+                              color: task.isDone ? Colors.green : Colors.grey,
+                              onPressed: () {
+                                ref
+                                    .read(taskListProvider.notifier)
+                                    .toggleTask(task.id);
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
