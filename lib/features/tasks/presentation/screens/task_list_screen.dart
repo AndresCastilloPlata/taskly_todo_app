@@ -12,17 +12,27 @@ class TaskListScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Tasks'),
+        backgroundColor: Colors.white,
+        elevation: 1,
         centerTitle: true,
+        title: const Text(
+          'My Tasks',
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           if (tasks.isNotEmpty)
             IconButton(
-              icon: const Icon(Icons.delete_forever),
+              icon: const Icon(Icons.delete_forever, color: Colors.redAccent),
               onPressed: () {
                 ref.read(taskListProvider.notifier).clearAll();
               },
             ),
         ],
+        iconTheme: const IconThemeData(color: Colors.black87),
       ),
       body:
           tasks.isEmpty
@@ -112,10 +122,12 @@ class TaskListScreen extends ConsumerWidget {
                 },
               ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepPurple,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         onPressed: () {
           _showAddTaskDialog(context, ref);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, size: 28, color: Colors.white),
       ),
     );
   }
@@ -127,19 +139,40 @@ class TaskListScreen extends ConsumerWidget {
       context: context,
       builder:
           (_) => AlertDialog(
-            title: const Text('Add Task'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: const Text(
+              'Add Task',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
 
             content: TextField(
               controller: controller,
               autofocus: true,
-              decoration: const InputDecoration(hintText: 'Enter task title'),
+              decoration: InputDecoration(
+                hintText: 'Enter task title',
+                filled: true,
+                fillColor: Colors.grey.shade100,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: Text('Cancel', style: TextStyle(color: Colors.grey)),
               ),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  foregroundColor: Colors.white,
+                ),
                 onPressed: () {
                   final title = controller.text.trim();
 
