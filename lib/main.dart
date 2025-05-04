@@ -16,7 +16,7 @@ class TasklyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Taskly',
-      theme: AppTheme.light,
+      theme: AppTheme.lightTheme,
       home: const TaskListScreen(),
     );
   }
