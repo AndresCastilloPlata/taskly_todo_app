@@ -26,7 +26,10 @@ class TaskListScreen extends ConsumerWidget {
       body:
           tasks.isEmpty
               ? const Center(
-                child: Text('No tasks yet!', style: TextStyle(fontSize: 18)),
+                child: Text(
+                  'You have no tasks yet!',
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
               )
               : ListView.separated(
                 padding: const EdgeInsets.all(16),
@@ -47,27 +50,53 @@ class TaskListScreen extends ConsumerWidget {
                       color: Colors.red,
                       child: const Icon(Icons.delete, color: Colors.white),
                     ),
-                    child: ListTile(
-                      tileColor: Colors.grey[100],
-                      shape: RoundedRectangleBorder(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+
                         borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
                       ),
-                      title: Text(
-                        task.title,
-                        style: TextStyle(
-                          decoration:
-                              task.isDone
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none,
-                        ),
-                      ),
-                      trailing: Checkbox(
-                        value: task.isDone,
-                        onChanged: (_) {
-                          ref
-                              .read(taskListProvider.notifier)
-                              .toggleTask(task.id);
-                        },
+
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              task.title,
+                              style: TextStyle(
+                                fontSize: 16,
+                                decoration:
+                                    task.isDone
+                                        ? TextDecoration.lineThrough
+                                        : TextDecoration.none,
+                                color:
+                                    task.isDone ? Colors.grey : Colors.black87,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            icon:
+                                task.isDone
+                                    ? Icon(Icons.check_circle)
+                                    : Icon(Icons.radio_button_unchecked),
+                            color: task.isDone ? Colors.green : Colors.grey,
+                            onPressed: () {
+                              ref
+                                  .read(taskListProvider.notifier)
+                                  .toggleTask(task.id);
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   );
