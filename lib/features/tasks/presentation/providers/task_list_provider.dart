@@ -26,8 +26,8 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   void clearAll() {
     state = [];
   }
-
-  final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
-    (ref) => TaskListNotifier(),
-  );
 }
+
+final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>(
+  (ref) => TaskListNotifier(),
+);
