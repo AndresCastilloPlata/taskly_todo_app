@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:taskly_todo_app/core/theme/app_theme.dart';
 import 'package:taskly_todo_app/features/tasks/presentation/providers/task_list_provider.dart';
 
 class TaskListScreen extends ConsumerWidget {
@@ -12,34 +13,23 @@ class TaskListScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        centerTitle: true,
-        title: const Text(
-          'My Tasks',
-          style: TextStyle(
-            color: Colors.black87,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const Text('My Tasks'),
         actions: [
           if (tasks.isNotEmpty)
             IconButton(
-              icon: const Icon(Icons.delete_forever, color: Colors.redAccent),
+              icon: const Icon(Icons.delete_forever),
               onPressed: () {
                 ref.read(taskListProvider.notifier).clearAll();
               },
             ),
         ],
-        iconTheme: const IconThemeData(color: Colors.black87),
       ),
       body:
           tasks.isEmpty
-              ? const Center(
-                child: Text(
+              ? Center(
+                child: const Text(
                   'You have no tasks yet!',
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                  style: TextStyle(color: AppColors.gray),
                 ),
               )
               : ListView.separated(
@@ -58,8 +48,8 @@ class TaskListScreen extends ConsumerWidget {
                     background: Container(
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      color: Colors.red,
-                      child: const Icon(Icons.delete, color: Colors.white),
+                      color: AppColors.danger,
+                      child: const Icon(Icons.delete, color: AppColors.white),
                     ),
                     child: FadeInLeft(
                       duration: Duration(
@@ -97,8 +87,8 @@ class TaskListScreen extends ConsumerWidget {
                                           : TextDecoration.none,
                                   color:
                                       task.isDone
-                                          ? Colors.grey
-                                          : Colors.black87,
+                                          ? AppColors.gray
+                                          : AppColors.text,
                                 ),
                               ),
                             ),
@@ -107,7 +97,10 @@ class TaskListScreen extends ConsumerWidget {
                                   task.isDone
                                       ? Icon(Icons.check_circle)
                                       : Icon(Icons.radio_button_unchecked),
-                              color: task.isDone ? Colors.green : Colors.grey,
+                              color:
+                                  task.isDone
+                                      ? AppColors.success
+                                      : AppColors.gray,
                               onPressed: () {
                                 ref
                                     .read(taskListProvider.notifier)
@@ -122,12 +115,10 @@ class TaskListScreen extends ConsumerWidget {
                 },
               ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.deepPurple,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         onPressed: () {
           _showAddTaskDialog(context, ref);
         },
-        child: const Icon(Icons.add, size: 28, color: Colors.white),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -142,37 +133,19 @@ class TaskListScreen extends ConsumerWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            title: const Text(
-              'Add Task',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            title: const Text('Add Task'),
 
             content: TextField(
               controller: controller,
               autofocus: true,
-              decoration: InputDecoration(
-                hintText: 'Enter task title',
-                filled: true,
-                fillColor: Colors.grey.shade100,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-              ),
+              decoration: InputDecoration(hintText: 'Enter task title'),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Cancel', style: TextStyle(color: Colors.grey)),
+                child: Text('Cancel'),
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  foregroundColor: Colors.white,
-                ),
                 onPressed: () {
                   final title = controller.text.trim();
 
